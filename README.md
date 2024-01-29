@@ -1,3 +1,3 @@
-# Stytch JWT and Session Authorization Template
+# Stytch JWT and Session Authorization Demo App
 
-This template serves as the starting point for building a Node.js application with a combination of JWT and Session Authorization using Stytch.
+This demo application shows how you can combine JWT and Session Authorization in a Node.js application using Stytch.
