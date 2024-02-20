@@ -22,7 +22,7 @@ git clone https://github.com/ivankahl/stytch-jwt-session-demo.git
 Navigate into the cloned folder using the following terminal command:
 
 ```shell
-cd stytch-jwt-session-demi
+cd stytch-jwt-session-demo
 ```
 
 Once inside, create a new `.env` in the directory and paste the following snippet:
