@@ -12,6 +12,13 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT;
 
+// Configure the Stytch B2B client using the Project ID and Secret in the
+// environment variables.
+const client = new stytch.B2BClient({
+  project_id: process.env.STYTCH_PROJECT_ID,
+  secret: process.env.STYTCH_SECRET,
+});
+
 // Configure middlewares for the Express.js application
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,13 +65,6 @@ app.use(async (req, res, next) => {
     console.error('Error authenticating session while accessing a protected page:', e);
     res.redirect('/');
   }
-});
-
-// Configure the Stytch B2B client using the Project ID and Secret in the
-// environment variables.
-const client = new stytch.B2BClient({
-  project_id: process.env.STYTCH_PROJECT_ID,
-  secret: process.env.STYTCH_SECRET,
 });
 
 // Renders the home page with a login screen.
