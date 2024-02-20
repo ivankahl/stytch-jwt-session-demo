@@ -18,17 +18,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
-// Configure the Stytch B2B client
-const client = new stytch.B2BClient({
-  project_id: process.env.STYTCH_PROJECT_ID,
-  secret: process.env.STYTCH_SECRET,
-});
+// Add authentication middleware
+app.use(async (req, res, next) => {
+  // If this is not a protected route, just continue with the request
+  if (!req.path.toLowerCase().startsWith('/protected')) {
+    next();
+    return;
+  }
 
-app.get('/', (req, res) => {
-  res.render('home');
-});
-
-app.get('/protected', async (req, res) => {
+  // This is a protected route, so we need to check if the user is authenticated
   try {
     // Check if the session is valid
     const response = await client.sessions.authenticate({
@@ -47,11 +45,25 @@ app.get('/protected', async (req, res) => {
     console.log(`IP Address: ${ipAddress}`);
 
     // Show the protected page if they are
-    res.render('protected');
+    next();
   } catch (e) {
     // If not, redirect them to the home page to log in
     res.redirect('/');
   }
+});
+
+// Configure the Stytch B2B client
+const client = new stytch.B2BClient({
+  project_id: process.env.STYTCH_PROJECT_ID,
+  secret: process.env.STYTCH_SECRET,
+});
+
+app.get('/', (req, res) => {
+  res.render('home');
+});
+
+app.get('/protected', async (req, res) => {
+  res.render('protected');
 });
 
 app.post('/login-or-signup', async (req, res) => {
